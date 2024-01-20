@@ -4,8 +4,61 @@ using UnityEngine;
 
 public class KnightScript : MonoBehaviour
 {
-    Rigidbody2D rb;
-    Animator anim;
+    private Rigidbody2D rb;
+    private SpriteRenderer sprite;
+    private Animator anim;
+
+    private float dirX = 0f;
+    [SerializeField] private float moveSpeed = 7f;
+    [SerializeField] private float jumpForce = 10f;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        dirX = Input.GetAxisRaw("Horizontal");
+        rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+
+        if (Input.GetButtonDown("Jump") && Mathf.Abs(rb.velocity.y) < 0.01f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        }
+
+        UpdateAnimationState();
+    }
+    private void UpdateAnimationState()
+    {
+        if (dirX > 0f)
+        {
+            anim.SetBool("IsWalking", true);
+            sprite.flipX = false;
+        }
+        else if (dirX < 0f)
+        {
+            anim.SetBool("IsWalking", true);
+            sprite.flipX = true;
+        }
+        else
+        {
+            anim.SetBool("IsWalking", false);
+        }
+
+        if (rb.velocity.y > 0.01f)
+        {
+            anim.SetBool("IsJumping", true);
+        }
+
+        if (rb.velocity.y < 0.01f)
+        {
+            anim.SetBool("IsJumping", false);
+        }
+    }
+    /*Animator anim;
     float dirX, moveSpeed = 5.0f;
     int healthPoints = 3;
     bool isHurting, isDead, isAttacking;
@@ -42,12 +95,14 @@ public class KnightScript : MonoBehaviour
             if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
                 transform.Translate(moveSpeed * Time.deltaTime, 0, 0);
-                dirX = rb.velocity.x;
+                anim.SetBool("isWalking", true);
             }
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
                 transform.Translate(-moveSpeed * Time.deltaTime, 0, 0);
-                dirX = -rb.velocity.x;
+                anim.SetBool("isWalking", true);
+                localScale.x *= -1;
+                transform.localScale = localScale;
             }
         }
     }
@@ -56,11 +111,6 @@ public class KnightScript : MonoBehaviour
     {
         if (!isHurting)
             rb.velocity = new Vector2(dirX, rb.velocity.y);
-    }
-
-    void LateUpdate()
-    {
-        CheckWhereToFace();
     }
 
     void SetAnimationState()
@@ -76,9 +126,6 @@ public class KnightScript : MonoBehaviour
             anim.SetBool("isJumping", false);
         }
 
-        if (Mathf.Abs(dirX) == 5 && rb.velocity.y == 0)
-            anim.SetBool("isWalking", true);
-
         if (Mathf.Abs(dirX) == 10 && rb.velocity.y == 0)
             anim.SetBool("isRunning", true);
         else
@@ -91,20 +138,6 @@ public class KnightScript : MonoBehaviour
         {
             anim.SetBool("isJumping", false);
         }
-    }
-
-    void CheckWhereToFace()
-    {
-        if (dirX > 0)
-            facingRight = true;
-        else if (dirX < 0)
-            facingRight = false;
-
-        if (((facingRight) && (localScale.x < 0)) || ((!facingRight) && (localScale.x > 0)))
-            localScale.x *= -1;
-
-        transform.localScale = localScale;
-
     }
 
    /* void OnTriggerEnter2D(Collider2D col)
@@ -125,7 +158,7 @@ public class KnightScript : MonoBehaviour
             isDead = true;
             anim.SetTrigger("isDead");
         }
-    }*/
+    }
 
     IEnumerator Hurt()
     {
@@ -140,5 +173,5 @@ public class KnightScript : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         isHurting = false;
-    }
+    }*/
 }
