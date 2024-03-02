@@ -10,21 +10,24 @@ public class BossBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        new WaitForSeconds(5.0f);
-        anim.SetBool("IsAttacking", true);
-        isCanAttack = false;
-        StartCoroutine(ResetAttack());
+        if (isCanAttack == true)
+        {
+            anim.SetBool("IsBossAttacking", true);
+            isCanAttack = false;
+            StartCoroutine(ResetAttack());
+        }
+
     }
     private IEnumerator ResetAttack()
     {
-        yield return new WaitForSeconds(0.467f);
-        anim.SetBool("IsAttacking", false);
+        yield return new WaitForSeconds(0.617f);
+        anim.SetBool("IsBossAttacking", false);
         isCanAttack = true;
     }
 }
