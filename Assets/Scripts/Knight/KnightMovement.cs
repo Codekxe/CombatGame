@@ -8,10 +8,12 @@ public class KnightScript : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private Animator anim;
+    public Transform player;
 
+    private bool isFlipped = false;
     private float dirX = 0f;
     [SerializeField] private float moveSpeed = 7f;
-    [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private float jumpForce = 15f;
     private bool isCanAttack = true;
 
     private void Start()
@@ -49,15 +51,17 @@ public class KnightScript : MonoBehaviour
     }
     private void UpdateAnimationState()
     {
-        if (dirX > 0f)
+        if (dirX > 0f && isFlipped == false)
         {
             anim.SetBool("IsWalking", true);
-            sprite.flipX = false;
+            transform.Rotate(0f, 180f, 0f);
+            isFlipped = true;
         }
-        else if (dirX < 0f)
+        else if (dirX < 0f && isFlipped == true)
         {
             anim.SetBool("IsWalking", true);
-            sprite.flipX = true;
+            transform.Rotate(0f, 180f, 0f);
+            isFlipped = false;
         }
         else
         {
