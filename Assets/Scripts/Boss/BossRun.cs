@@ -10,6 +10,7 @@ public class BossRun : StateMachineBehaviour
     Transform player;
     Rigidbody2D rb;
     Boss boss;
+    PlayerHealth playerHealth;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -17,7 +18,7 @@ public class BossRun : StateMachineBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = animator.GetComponent<Rigidbody2D>();
         boss = animator.GetComponent<Boss>();
-
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -27,12 +28,16 @@ public class BossRun : StateMachineBehaviour
 
         Vector2 target = new Vector2(player.position.x, rb.position.y);
         Vector2 newPos = Vector2.MoveTowards(rb.position, target, speed * Time.fixedDeltaTime);
-        rb.MovePosition(newPos);
-        Debug.Log("Distance ne" + Vector2.Distance(player.position, rb.position).ToString());
+        if (playerHealth.health > 0)
+        {
+            rb.MovePosition(newPos);
+        }
+        /*Debug.Log("Distance" + Vector2.Distance(player.position, rb.position).ToString());*/
         if (Vector2.Distance(player.position, rb.position) <= attackRange)
         {
-            Debug.Log("Danh dc ne");
             animator.SetTrigger("IsAttacking");
+            BossAttack bossAttack = boss.GetComponent<BossAttack>();
+            bossAttack.Attack();
         }
     }
 

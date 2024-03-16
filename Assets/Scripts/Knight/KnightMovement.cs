@@ -10,7 +10,6 @@ public class KnightScript : MonoBehaviour
     private Animator anim;
     public Transform player;
 
-    private bool isFlipped = false;
     private float dirX = 0f;
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float jumpForce = 15f;
@@ -51,17 +50,15 @@ public class KnightScript : MonoBehaviour
     }
     private void UpdateAnimationState()
     {
-        if (dirX > 0f && isFlipped == false)
+        if (dirX > 0f)
         {
             anim.SetBool("IsWalking", true);
-            transform.Rotate(0f, 180f, 0f);
-            isFlipped = true;
+            sprite.flipX = false;
         }
-        else if (dirX < 0f && isFlipped == true)
+        else if (dirX < 0f)
         {
             anim.SetBool("IsWalking", true);
-            transform.Rotate(0f, 180f, 0f);
-            isFlipped = false;
+            sprite.flipX = true;
         }
         else
         {
