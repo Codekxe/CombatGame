@@ -5,7 +5,7 @@ using UnityEngine;
 public class BossRun : StateMachineBehaviour
 {
     public float speed = 5.0f;
-    public float attackRange = 4.0f;
+    public float attackRange = 3.5f;
 
     Transform player;
     Rigidbody2D rb;
@@ -40,7 +40,6 @@ public class BossRun : StateMachineBehaviour
             bossAttack.Attack();
         }
     }
-
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
