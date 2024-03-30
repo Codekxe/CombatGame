@@ -1,10 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossHealth : MonoBehaviour
 {
-    public int health = 100;
+    public int maxHealth = 200;
+    public int health = 200;
+    public Image HealthBar;
+    public TextMeshProUGUI BossHealthText;
+    public Image Red;
+    public Image PlayerHealthBar;
+    public TextMeshProUGUI PlayerHealthText;
+    public Image OtherRed;
+    public Image BlackScreen;
+    public TextMeshProUGUI GameOverText;
+    public TextMeshProUGUI RetryText;
+    public TextMeshProUGUI LoseText;
+    public Image Troll;
+
+    public void Start()
+    {
+        health = maxHealth;
+        PlayerHealthBar.enabled = true;
+        PlayerHealthText.enabled = true;
+        Red.enabled = true;
+        BossHealthText.enabled = true;
+        HealthBar.enabled = true;
+        OtherRed.enabled = true;
+        BlackScreen.enabled = false;
+        GameOverText.enabled = false;
+        RetryText.enabled = false;
+        LoseText.enabled = false;
+        Troll.enabled = false;
+    }
+
     public void TakeDamage(int damage)
     {
         health -= damage;
@@ -13,6 +44,9 @@ public class BossHealth : MonoBehaviour
         {
             Die();
         }
+
+        HealthBar.fillAmount = Mathf.Clamp((float)health / maxHealth, 0f, 1f);
+        BossHealthText.text = health.ToString();
     }
 
     void Die()
@@ -35,5 +69,16 @@ public class BossHealth : MonoBehaviour
         flipScript.enabled = false;
         script.enabled = false;
         playerAnimator.enabled = false;
+        HealthBar.enabled = false;
+        BossHealthText.enabled = false;
+        Red.enabled = false;
+        PlayerHealthText.enabled = false;
+        PlayerHealthBar.enabled = false;
+        OtherRed.enabled = false;
+        BlackScreen.enabled = true;
+        GameOverText.enabled = true;
+        RetryText.enabled = true;
+        LoseText.enabled = true;
+        Troll.enabled = true;
     }
 }

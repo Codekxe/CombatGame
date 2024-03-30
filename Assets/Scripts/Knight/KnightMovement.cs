@@ -13,12 +13,12 @@ public class KnightScript : MonoBehaviour
     public LayerMask attackMask;
 
     private float dirX = 0f;
-    [SerializeField] private float moveSpeed = 7f;
+    [SerializeField] private float moveSpeed = 12f;
     [SerializeField] private float jumpForce = 15f;
     private bool isCanAttack = true;
     private int health = 100;
-    public float attackRange = 2.0f;
-    public int attackDamage = 10;
+    public float attackRange = 2.5f;
+    public int attackDamage = 15;
 
     private void Start()
     {
