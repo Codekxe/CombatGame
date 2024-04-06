@@ -35,7 +35,6 @@ public class BossRun : StateMachineBehaviour
         /*Debug.Log("Distance" + Vector2.Distance(player.position, rb.position).ToString());*/
         if (Vector2.Distance(player.position, rb.position) <= attackRange)
         {
-            animator.SetTrigger("IsAttacking");
             BossAttack bossAttack = boss.GetComponent<BossAttack>();
             bossAttack.Attack();
         }
